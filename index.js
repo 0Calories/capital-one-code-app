@@ -61,6 +61,8 @@ module.exports = app => {
         owner,
         repo,
         number,
+        body: 'Code analyzed!',
+        event: 'COMMENT',
         comments: reviewComments
       };
 
