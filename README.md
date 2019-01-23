@@ -1,22 +1,16 @@
 # capital-one-code-analyzer
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that A GitHub bot that analyzes code to read things like number of lines, comments, and TODOs. Made for the CapitalOne technical assessment
+A GitHub app that analyzes code to read things like number of lines, comments, and TODOs. Made for the CapitalOne technical assessment
 
-## Setup
+## How to test
 
-```sh
-# Install dependencies
-npm install
+1. If you would like to test the GitHub app for yourself, you first need to create a repository on GitHub (or have an existing one)
+2. Once your repo is ready, go to this link to get the app: https://github.com/apps/capital-one-code-analyzer
+3. You can then install the app on the repository you want to test on
+4. Create a new branch on your repo, commit and push some code to it, and open a Pull Request
+5. Once the Pull Request has been opened, the app will automatically analyze the files and leave a review (example below)
+![Code Analyzer Example](https://imgur.com/a/umg5OMw)
 
-# Run the bot
-npm start
-```
-
-## Contributing
-
-If you have suggestions for how capital-one-code-analyzer could be improved, or want to report a bug, open an issue! We'd love all and any contributions.
-
-For more, check out the [Contributing Guide](CONTRIBUTING.md).
 
 ## License
 
