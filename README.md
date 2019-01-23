@@ -1,6 +1,9 @@
 # capital-one-code-analyzer
 
-A GitHub app that analyzes code to read things like number of lines, comments, and TODOs. Made for the CapitalOne technical assessment
+A GitHub app that analyzes code to read things like number of lines, comments, and TODOs for all files when a Pull Request is made. Made for the CapitalOne technical assessment
+
+## Notes
+Unfortunately, the GitHub API doesn't seem to allow a way to read code as soon as it is checked in, but it can read code when a Pull Request is made. Due to this, I designed the app so that it will comment analysis results on individual files in the form of a review on PRs.
 
 ## How to test
 
