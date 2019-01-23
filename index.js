@@ -39,4 +39,4 @@ module.exports = app => {
 }
 
 // Here's the script for testing the pull_request Webhook:
-// node_modules/.bin/probot receive -e pull_request.opened -p test/fixtures/pull.request.opened.json ./index.js
+// node_modules/.bin/probot receive -e pull_request.opened -p test/fixtures/advanced.pull.request.json ./index.js
