@@ -39,4 +39,4 @@ comment */
 
 ## License
 
-[ISC](LICENSE) © 2019 0Calories <cppanand@gmail.com>
+[ISC](LICENSE) © 2019 Ash Anand
