@@ -1,33 +1,20 @@
 module.exports = app => {
-  // Your code here
-  app.log('Yay, the app was loaded!');
 
-  app.on('issues.opened', async context => {
-    const issueComment = context.issue({ body: 'Thanks for opening this issue!' });
-    return context.github.issues.createComment(issueComment);
-  });
-
-  app.on('push', async context => {
-    const owner = context.payload.repository.owner.name;
-    const repo = context.payload.repository.name;
-    const commit_sha = context.payload.head_commit.id;
-    // app.log(`Owner: ${owner}, Repo: ${repo}, commit_sha: ${commitId}`);
-    
-     const result = await context.github.gitdata.getCommit({ owner, repo, commit_sha });
-     app.log(result);
-  });
-
+  // WebHook handler for when a pull request is opened or edited
   app.on(['pull_request.opened', 'pull_request.edited'], async context => {
+    
+    // Pull off the neccessary data from the payload in order to get the files in the PR 
     const owner = context.payload.repository.owner.login;
     const repo = context.payload.repository.name;
     const number = context.payload.number;
 
     app.log(`Owner: ${owner}, Repo: ${repo}, number: ${number}`);
+
+    // List the files in this pull request so we can read them
+    const result = await context.github.pullRequests.listFiles({ owner, repo, number });
+    app.log(result);
   });
-
-  // For more information on building apps:
-  // https://probot.github.io/docs/
-
-  // To get your app running against GitHub, see:
-  // https://probot.github.io/docs/development/
 }
+
+// Here's the script for testing the pull_request Webhook:
+// node_modules/.bin/probot receive -e pull_request.opened -p test/fixtures/pull.request.opened.json ./index.js
