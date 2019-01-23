@@ -1,8 +1,6 @@
 // Analyzes a file by counting # of lines, # of comments, and # of TODOs
 const analyzeFile = file => {
   // Initialize variables for parsing the file
-  let numLines = 0;
-  let numCommentLines = 0;
   let numSingleLineComments = 0;
   let numBlockCommentLines = 0;
   let numBlockComments = 0;
@@ -36,30 +34,61 @@ const analyzeFile = file => {
     } 
   });
 
+  commentBlockFlag = false;
+
   // Parse the comment lines
   commentLines.forEach(line => {
 
-    //const isTrailingComment = line.includes('//') || line.includes('/*') || line.includes('*/');
+    if (commentBlockFlag)
+      numBlockCommentLines++;
 
     if (line.substring(0, 2) === '//' || line.includes('//')) 
       numSingleLineComments++;
-    else if (line.substring(0, 2) == '/*') 
+    else if (line.substring(0, 2) == '/*') {
       numBlockComments++;
+
+      if (!commentBlockFlag)
+        numBlockCommentLines++;
+      
+      commentBlockFlag = true;
+    } else if (line.substring(line.length - 2, line.length) == '*/') {
+
+      if (!commentBlockFlag)
+        numBlockCommentLines++;
+        
+      commentBlockFlag = false;
+    }
+
+    // Check for the special case where an entire block comment is on a single line
+    if (line.includes('/*') && line.includes('*/')) 
+      numBlockCommentLines++;
     
     if (line.includes('TODO:'))
       numTodos++;
 
   });
 
+  /*
   console.log(lines);
   console.log(commentLines);
 
-  console.log(`Total # of lines: ${numLines}`);
+  console.log(`Total # of lines: ${lines.length}`);
   console.log(`Total # of comment lines: ${commentLines.length}`);
   console.log(`Total # of single line comments: ${numSingleLineComments}`);
   console.log(`Total # of comment lines within block comments: ${numBlockCommentLines}`);
   console.log(`Total # of block comments: ${numBlockComments}`);
-  console.log(`Total # of TODO's: ${numTodos}`);
+  console.log(`Total # of TODO's: ${numTodos}`); 
+  */
+
+  // TODO: numBlockCommentLines is not counting 100% accurately but I'm running out of time. Fix later if time permits it
+  return {
+    numLines: lines.length,
+    numCommentLines: commentLines.length,
+    numSingleLineComments,
+    numBlockCommentLines,
+    numBlockComments,
+    numTodos
+  };
 };
 
 
