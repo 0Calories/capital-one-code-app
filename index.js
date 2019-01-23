@@ -35,7 +35,7 @@ module.exports = app => {
 
           const results = fileParser.analyzeFile(body);
           const commentString = `
-            ###${file.filename}
+            ${file.filename}:
             Total \# of lines: ${results.numLines}
             Total \# of comment lines: ${results.numCommentLines}
             Total \# of single line comments: ${results.numSingleLineComments}
@@ -61,7 +61,7 @@ module.exports = app => {
         owner,
         repo,
         number,
-        body: 'Code analyzed!',
+        body: '# Code analyzed!',
         event: 'COMMENT',
         comments: reviewComments
       };
