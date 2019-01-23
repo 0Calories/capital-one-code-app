@@ -1,3 +1,7 @@
+const request = require('request');
+
+const fileParser = require('./src/file-parser');
+
 module.exports = app => {
 
   // WebHook handler for when a pull request is opened or edited
@@ -8,11 +12,29 @@ module.exports = app => {
     const repo = context.payload.repository.name;
     const number = context.payload.number;
 
-    app.log(`Owner: ${owner}, Repo: ${repo}, number: ${number}`);
-
     // List the files in this pull request so we can read them
-    const result = await context.github.pullRequests.listFiles({ owner, repo, number });
-    app.log(result);
+    const files = await context.github.pullRequests.listFiles({ owner, repo, number });
+
+    files.data.forEach(file => {
+      // Check if the file is valid before parsing it
+      // This line is true if this is not a file that starts with '.' and the file has an extension
+      const validFile = file.filename.charAt(0) !== '.' && file.filename.split('.')[1];
+
+      if (validFile) {
+        // Fetch the content of the file
+        request(file.raw_url, { json: false }, (err, res, body) => {
+          // If there is an error, log it and return
+          if (err) {
+            app.log(err);
+            return;
+          }
+
+          // app.log(body);
+          fileParser.analyzeFile(body);
+          //app.log(lineArray);
+        });
+      }
+    });
   });
 }
 
